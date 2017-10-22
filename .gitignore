@@ -1,0 +1,20 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Config
+package-lock.json
+
+# Dependency directories
+node_modules/
+
+# Cache
+.sass-cache/
+
+# Compiled
+public/compiled/*
+!public/compiled/fonts/*
+!public/compiled/i/*

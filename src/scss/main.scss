@@ -1,0 +1,132 @@
+@import 'base';
+@import 'plugin';
+@import 'util';
+@import 'config';
+
+@import 'pages/*';
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i');
+
+button {
+	width: 100%;
+	background-color: $blue;
+	border-radius: $border-radius;
+	padding: 12px;
+	font-size: 1.5em;
+	font-weight: bold;
+	text-align: center;
+}
+
+input {
+	&[type="checkbox"], &[type="radio"] {
+		width: 18px;
+		height: 18px;
+		position: relative;
+		cursor: pointer;
+		
+		&:before {
+			content: '';
+			background-image: url(/static/i/spritesheet.svg);
+			background-color: inherit;
+			width: 18px;
+			height: 18px;
+			position: absolute;
+		}
+	}
+	
+	&[type="checkbox"] {
+		&:before {
+			background-position: 0 0;
+		}
+		
+		&:hover:before {
+			background-position: 0 -18px;
+		}
+		
+		&:checked:before {
+			background-position: 0 -36px;
+		}
+		
+		&[disabled] {
+			&:before {
+				background-position: 0 -54px;
+			}
+			
+			&:checked:before {
+				background-position: 0 -72px;
+			}
+			
+			&.dark {
+				&:before {
+					background-position: 0 -234px;
+				}
+				
+				&:checked:before {
+					background-position: 0 -252px;
+				}
+			}
+		}
+		
+		&.dark {
+			&:before {
+				background-position: 0 -180px;
+			}
+			
+			&:hover:before {
+				background-position: 0 -198px;
+			}
+			
+			&:checked:before {
+				background-position: 0 -216px;
+			}
+		}
+	}
+	
+	&[type="radio"] {
+		&:before {
+			background-position: 0 -90px;
+		}
+		
+		&:hover:before {
+			background-position: 0 -108px;
+		}
+		
+		&:checked:before {
+			background-position: 0 -126px;
+		}
+		
+		&[disabled] {
+			&:before {
+				background-position: 0 -144px;
+			}
+			
+			&:checked:before {
+				background-position: 0 -162px;
+			}
+			
+			.dark {
+				&:before {
+					background-position: 0 -324px;
+				}
+				
+				&:checked:before {
+					background-position: 0 -342px;
+				}
+			}
+		}
+		
+		&.dark {
+			&:before {
+				background-position: 0 -270px;
+			}
+			
+			&:hover:before {
+				background-position: 0 -288px;
+			}
+			
+			&:checked:before {
+				background-position: 0 -306px;
+			}
+		}
+	}
+}
