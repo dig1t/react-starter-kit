@@ -12,9 +12,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Dig1t/react-starter-kit.git"
+    "url": "https://github.com/dig1t/react-starter-kit.git"
   },
-  "author": "Dig1t",
+  "author": "dig1t",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.16.2",
