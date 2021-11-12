@@ -1,33 +1,38 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import { BrowserRouter } from 'react-router-dom'
-import { Router, Route, Switch } from 'react-router'
-import { createBrowserHistory } from 'history'
-import { Provider } from 'react-redux'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-import Landing from './Landing'
-import Login from './Login'
-import Directory from './Directory'
-import Error from './Error'
+import Routes from './Routes'
 
-const history = createBrowserHistory()
+import { googleReady } from '../actions/uiEvents.js'
+import { fetchUserData } from '../actions/user'
 
-export default class Root extends React.Component {
-	static propTypes = {
-		store: PropTypes.object.isRequired
+class Root extends React.Component {
+	constructor(props) {
+		super(props)
+	}
+	
+	componentDidMount() {
+		// run all one-time redux actions
+		
+		if (typeof window === 'undefined') return
+		
+		!this.props.googleReady && window.google ? this.props.dispatch(googleReady(true)) : window.mapsCallback = () => {
+			this.props.dispatch(googleReady(true))
+		}
+		
+		this.props.user.loggedIn && typeof this.props.user.profile.userId !== 'undefined' && this.props.dispatch(fetchUserData())
 	}
 	
 	render() {
-		return <Provider store={this.props.store}>
-			<Router history={history}>
-				<Switch>
-					<Route exact path="/" component={Landing} />
-					<Route exact path="/login" component={Login} />
-					<Route exact path="/directory" component={Directory} />
-					<Route component={Error} />
-				</Switch>
-			</Router>
-		</Provider>;
+		return <Routes />
 	}
 }
+
+const mapStateToProps = state => {
+	return {
+		user: state.user,
+		googleReady: state.ui.googleReady
+	}
+}
+
+export default Root

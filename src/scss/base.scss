@@ -1,8 +1,3 @@
-/* todo
- * - set color variables for all styles
- * - different types of tables
-*/
-
 @import 'config';
 
 // Reset
@@ -25,10 +20,7 @@
 }
 
 body {
-	color: #3f3f3f;
-	background-color: #fff;
 	zoom: 0;
-	font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	font-size: 62.5%;
 	-webkit-font-smoothing: antialiased;
 }
@@ -38,20 +30,15 @@ section {
 	overflow: hidden;
 }
 
-$heading-scale: 1.5;
-$heading-scale-result: 1;
+h1 { font-size: type-scale(3); }
+h2 { font-size: type-scale(2); }
+h3 { font-size: type-scale(1); }
+h4 { font-size: type-scale(0); }
 
-@for $i from 4 through 1 {
-	$heading-scale-result: $heading-scale-result * $heading-scale;
-	
-	h#{$i} {
-		font-size: #{$heading-scale-result}em;
-	}
-}
 
 a, em, p, strong, u {
-	font-size: 1.3em;
-	line-height: 1.3em;
+	font-size: type-scale(0);
+	line-height: type-scale(0);
 }
 
 a {
@@ -76,21 +63,16 @@ button > a {
 }
 
 select, input, textarea {
-	color: #3f3f3f;
+	color: $black;
 	background-color: #fff;
 	width: 100%;
-	border: 1px solid #989899;
-	border-radius: 3px;
+	border: 1px solid lighten($black, 50%);
 	padding: 6px;
-	font-size: 14px;
+	font-size: type-scale(0);
 	display: block;
 	
-	&:hover {
-		border-color: #c4c4c4;
-	}
-	
 	&:focus {
-		border-color: #5f5f5f;
+		border-color: $black;
 	}
 }
 
@@ -98,42 +80,141 @@ textarea {
 	resize: none;
 }
 
-input[type="submit"] {
-	color: #fff;
-	background-color: #3284ff;
-	border: 0;
-	border-radius: 0;
-	padding: 6px 12px;
-	font-size: 18px;
-	cursor: pointer;
-	
-	&:hover {
-		background-color: #2d76e4;
+input {
+	&.ok {
+		border-color: #55dc7d;
 	}
 	
-	&:active {
-		background-color: #3880eb;
+	&.error {
+		border-color: #f75252;
 	}
-}
-
-input.ok {
-	border-color: #55dc7d;
-}
-
-input.error {
-	border-color: #f75252;
+	
+	&[type="submit"] {
+		color: #fff;
+		background-color: $blue;
+		border: 0;
+		border-radius: 0;
+		padding: 6px 12px;
+		font-size: 18px;
+		cursor: pointer;
+		
+		&:hover {
+			background-color: darken($blue, 20%);
+		}
+	}
+	
+	&[type="checkbox"], &[type="radio"] {
+		width: 18px;
+		height: 18px;
+		position: relative;
+		cursor: pointer;
+		
+		&:focus {
+			box-shadow: none;
+		}
+		
+		&:before {
+			content: '';
+			background-image: img('spritesheet.svg');
+			background-color: inherit;
+			width: 18px;
+			height: 18px;
+			position: absolute;
+		}
+	}
+	
+	&[type="checkbox"] {
+		&:before {
+			background-position: -304px 0;
+		}
+		
+		&:hover:before {
+			background-position: -304px -18px;
+		}
+		
+		&:checked:before {
+			background-position: -304px -36px;
+		}
+		
+		&[disabled] {
+			cursor: auto;
+			
+			&:before {
+				background-position: -304px -54px;
+			}
+			
+			&:checked:before {
+				background-position: -304px -72px;
+			}
+			
+			&.dark {
+				&:before {
+					background-position: -304px -90px;
+				}
+				
+				&:checked:before {
+					background-position: -304px -108px;
+				}
+			}
+		}
+		
+		&.dark:before {
+			background-position: -304px -126px;
+		}
+	}
+	
+	&[type="radio"] {
+		&:before {
+			background-position: -322px 0;
+		}
+		
+		&:hover:before {
+			background-position: -322px -18px;
+		}
+		
+		&:checked:before {
+			background-position: -322px -36px;
+		}
+		
+		&[disabled] {
+			cursor: auto;
+			
+			&:before {
+				background-position: -322px -54px;
+			}
+			
+			&:checked:before {
+				background-position: -322px -72px;
+			}
+			
+			.dark {
+				&:before {
+					background-position: -322px -90px;
+				}
+				
+				&:checked:before {
+					background-position: -322px -108px;
+				}
+			}
+		}
+		
+		&.dark:before {
+			background-position: -322px -126px;
+		}
+	}
 }
 
 label {
-	input {
+	display: block;
+	
+	input[type="checkbox"], input[type="radio"] {
 		margin-right: 2px;
 		display: inline-block;
 	}
 	
 	span {
-		display: inline-block;
+		display: block;
 		vertical-align: middle;
-		cursor: pointer;
 	}
 }
 
@@ -149,11 +230,11 @@ table {
 }
 
 td, th {
-	background: #fff;
+	background: $white;
 	margin: 4px;
 	border-bottom: 1px solid #d5d5d5;
 	padding: 8px 12px;
-	font-size: 1.5em;
+	font-size: type-scale(0);
 	text-align: left;
 	
 	&:first-child {
@@ -167,6 +248,56 @@ td, th {
 	}
 }
 
+.align-wrap {
+	height: 100%;
+	display: flex;
+	align-items: center;
+}
+
+.scroll {
+	$scrollbar-width: 8px;
+	$margin: 8px;
+	
+	$native-scrollbar-width: 12px;
+	
+	&-container {
+		overflow: hidden;
+		display: flex;
+	}
+	
+	&__view {
+		width: calc(100% + #{$native-scrollbar-width});
+		overflow: scroll;
+		margin-right: -$native-scrollbar-width;
+	}
+	
+	&__track {
+		width: $scrollbar-width + ($margin * 2);
+		position: absolute;
+		top: $margin;
+		bottom: $margin;
+		right: 0;
+		
+		&:hover .scroll__slider {
+			opacity: .8;
+		}
+	}
+	
+	&__slider {
+		background-color: black;
+		height: 100%; // 10% + 25px main element padding - half size of scrollbar
+		width: $scrollbar-width;
+		border-radius: $scrollbar-width / 2;
+		position: absolute;
+		left: $margin;
+		top: 0;
+		transition: opacity .2s;
+		opacity: .3;
+		//opacity: 0;
+		// TODO: uncomment opacity
+	}
+}
+
 // Pseudo Styles
 
 ::selection,
@@ -177,67 +308,98 @@ td, th {
 }
 
 ::-webkit-scrollbar {
-  width: 12px;
+	width: 12px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #3f3f3f;
+	background-color: #3f3f3f;
 }
 
 ::-webkit-scrollbar-thumb:window-inactive {
 	background-color: #4f4f4f;
 }
 
-// Grid
+/* Grid
+** Only divs allowed
+** Reference: https://medium.com/p/e5c7cc9d28e */
 
-$gutter: 30px;
+$grid-gutter: 15px; // test 15px, move back to 30px if test not working
+$grid-columns: 12;
 
-.row {
-  margin-left: ($gutter / -2);
-  margin-right: ($gutter / -2);
-  
-  &, &-ng {
-    clear: both;
-  	
-  	&:before, &:after {
-  		content: " ";
-  		display: table;
-  		clear: both;
-  	}
-  }
-}
-
-$grid-letters: (12: xl, 9: l, 6: m, 3: s);
-
-@for $i from 12 through 1 {
-	$property: unquote("#{unquote(".col-")}#{$i}");
-	$property-offset: unquote("#{unquote(".col-offset-")}#{$i}");
-	$width: percentage($i / 12);
-	
-	@if map-has-key($grid-letters, $i) {
-		$property: #{$property} unquote(', .col-')#{map-get($grid-letters, $i)};
-		$property-offset: #{$property-offset} unquote(', .col-offset-')#{map-get($grid-letters, $i)};
-	}
-	
-	#{$property} {
-    padding-left: ($gutter / 2);
-    padding-right: ($gutter / 2);
-    
-    &, &-ng {
-      width: $width;
-    }
-	}
-	
-	@include breakpoint(tablet-large, 'min-width') {
-		#{$property-offset} {
-	    &, &-ng {
-	      margin-left: $width;
-	    }
+// Gutter has -g suffix
+div.grid {
+	&, &-g {
+		display: flex;
+		flex-flow: row wrap;
+		
+		&.align-center {
+			align-items: center;
+		}
+		
+		&.align-bottom {
+			align-items: flex-end;
 		}
 	}
+	
+	&-g {
+		margin-left: ($grid-gutter / -2);
+		margin-right: ($grid-gutter / -2);
+	}
 }
 
-div.col, div[class*="col-"] {
-	float: left;
-	vertical-align: top;
+@for $i from $grid-columns through 1 {
+	$property: unquote("#{unquote(".gi-")}#{$i}");
+	$property-push: unquote("#{unquote(".grid-push-")}#{$i}");
+	$property-push-r: unquote("#{unquote(".grid-push-r-")}#{$i}");
+	$property-push-lr: unquote("#{unquote(".grid-push-lr-")}#{$i}");
+	$width: percentage($i / $grid-columns);
+	
+	div#{$property} {
+		// grow | shrink | basis
+		//flex: 0 0 $width;
+		flex-basis: $width;
+	}
+	
+	// automatically add gutters
+	div.grid-g > div#{$property} {
+		padding-left: ($grid-gutter / 2);
+		padding-right: ($grid-gutter / 2);
+	}
+	
+	// Push Feature
+	@include breakpoint(tablet-large, 'min-width') {
+		/* Add padding for grid items instead of margin to
+		** since they have already padding */
+		div[class^="gi-"], div[class~="grid"] {
+			&#{$property-push} {
+				margin-left: $width;
+			}
+			
+			&#{$property-push-r} {
+				margin-right: $width;
+			}
+			
+			&#{$property-push-lr} {
+				margin-left: $width;
+				margin-right: $width;
+			}
+		}
+		
+		/* Use padding rather than margin to avoid
+		** sizing problems with gutter grids */
+		div[class~="grid-g"] {
+			&#{$property-push} {
+				padding-left: $width;
+			}
+			
+			&#{$property-push-r} {
+				padding-right: $width;
+			}
+			
+			&#{$property-push-lr} {
+				padding-left: $width;
+				padding-right: $width;
+			}
+		}
+	}
 }

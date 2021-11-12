@@ -1,16 +1,19 @@
 import React from 'react'
-import { Router, Route, Switch } from 'react-router'
+import { Route, Routes } from 'react-router-dom'
 
-import Landing from './Landing'
-import Login from './Login'
-import Directory from './Directory'
+//import PrivateRoute from './PrivateRoute'
 
-export default class Routes extends React.Component {
-	render() {
-		return <Switch>
-			<Route exact path="/" component={Landing} />
-			<Route exact path="/login" component={Login} />
-			<Route exact path="/directory" component={Directory} />
-		</Switch>;
-	}
-}
+import Error from './Routes/Error'
+import Landing from './Routes/Landing'
+
+//<PrivateRoute exact path="/my/settings" component={UserSettings} requireAuth={true} redirect="/login" />
+//<PrivateRoute exact path="/login" component={Login} requireNoAuth={true} redirect="/" />
+//<PrivateRoute exact path="/me" component={UserProfile} requireAuth={true} redirect="/login" />
+
+export default () => (
+	<Routes>
+		<Route exact path="/" component={Landing} />
+		
+		<Route path="*" element={<Error />} />
+	</Routes>
+)

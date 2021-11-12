@@ -1,9 +1,16 @@
 import { combineReducers } from 'redux'
 
-import users from './users'
+import ui from './ui'
+import { fetchStatus, fetchErrors } from './fetchStatus'
 
-const reducers = combineReducers({
-	users
+import user from './user'
+import profiles from './profiles'
+
+export default combineReducers({
+	ui,
+	fetchStatus,
+	fetchErrors,
+	
+	user,
+	profiles
 })
-
-export default reducers
