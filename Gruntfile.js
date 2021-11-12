@@ -80,5 +80,6 @@ module.exports = function(grunt) {
 		grunt.loadNpmTasks(task)
 	})
 	
-	grunt.registerTask('default', ['watch'])
+	grunt.registerTask('default', ['sass', 'concat', 'cssmin', 'clean'])
+	grunt.registerTask('watch', ['watch'])
 }
