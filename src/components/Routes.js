@@ -12,7 +12,7 @@ import Landing from './Routes/Landing'
 
 export default () => (
 	<Routes>
-		<Route exact path="/" component={Landing} />
+		<Route exact path="/" element={Landing} />
 		
 		<Route path="*" element={<Error />} />
 	</Routes>

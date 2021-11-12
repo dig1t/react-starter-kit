@@ -11,21 +11,9 @@ import { Strategy as LocalStrategy } from 'passport-local'
 
 import config from './config.js'
 import api from './api.js'
+import ServerSideRender from '../src/server.js'
 
-import User from './src/models/User.js'
-
-/* Server-side Rendering Components */
-import React from 'react'
-import ReactDOMServer from 'react-dom/server'
-import { StaticRouter } from 'react-router-dom/server'
-import { Provider } from 'react-redux'
-
-//import Error from './src/components/Routes/Error'
-//import Routes from './src/components/Routes'
-import Root from './src/components/Root'
-
-import { setAuthStatus } from './src/actions/user'
-import { configureStore } from './src/store'
+import User from '../src/models/User.js'
 
 const app = express()
 
@@ -43,11 +31,11 @@ db.once('open', () => {
 /* Setup express */
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-app.use(express.static(path.resolve(__dirname, 'public')))
+app.use(express.static('dist/public'))
 app.use(compression())
 app.use(helmet({ noCache: app.get('env') === 'development' }))
 app.set('view engine', 'ejs')
-app.set('views', path.join(__dirname, 'views'))
+app.set('views', 'dist/views')
 
 app.on('error', err => {
 	if (err) console.error(err)
@@ -158,25 +146,12 @@ app.get('*', (req, res) => {
 	res.setHeader('Content-Type', 'text/html; charset=utf-8')
 	app.get('env') === 'development' && res.setHeader('Cache-Control', 'no-cache')
 	
-	const context = {}
-	const store = configureStore()
-	
-	//store.dispatch(setAuthStatus(typeof req.session.userId !== 'undefined'))
-	
-	let markup = ReactDOMServer.renderToString(
-		<StaticRouter location={req.url} context={context}>
-			<Provider store={store}>
-				<Root />
-			</Provider>
-		</StaticRouter>
-	)
-	
-	if (context.status) res.status(context.status)
+	const { initialState, markup } = ServerSideRender(req, res)
 	
 	return res.render('template', {
 		keys: config.keys,
 		meta: config.meta,
-		initialState: JSON.stringify(store.getState()),
+		initialState: JSON.stringify(initialState),
 		markup
 	})
 })

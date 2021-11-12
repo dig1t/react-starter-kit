@@ -7,7 +7,7 @@ yarn-error.log*
 
 # Config
 package-lock.json
-config.js
+server/config.js
 
 # Dependency directories
 node_modules/
@@ -16,8 +16,7 @@ node_modules/
 .sass-cache/
 
 # Compiled
-public/*
-!public/assets/webfonts
-!public/assets/i/*
-!public/manifest.json
-!public/robots.txt
+dist/*
+dist/public/bundle.js
+dist/public/assets/css
+!dist/public
