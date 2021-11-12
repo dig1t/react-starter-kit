@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 		sass: { // Convert sass file into css
 			dist: {
 				options: {
-					sourcemap: 'none'
+					//sourcemap: 'none'
 				},
 				files: [{
 					expand: true,
@@ -15,7 +15,7 @@ module.exports = function(grunt) {
 						'admin.scss',
 						'main.scss'
 					],
-					dest: 'public/compiled/css',
+					dest: 'public/assets/css',
 					ext: '.css'
 				}]
 			}
@@ -24,10 +24,10 @@ module.exports = function(grunt) {
 		concat: { // Concatenate required css files with compiled sass file
 			dist: {
 				src: [
-					'public/compiled/css/main.css',
+					'public/assets/css/main.css',
 					'src/scss/*.css'
 				],
-				dest: 'public/compiled/css/build.css'
+				dest: 'public/assets/css/build.css'
 			}
 		},
 		
@@ -35,12 +35,12 @@ module.exports = function(grunt) {
 			dist: {
 				files: [{
 					expand: true,
-					cwd: 'public/compiled/css',
+					cwd: 'public/assets/css',
 					src: [
 						'admin.css',
 						'build.css'
 					],
-					dest: 'public/compiled/css',
+					dest: 'public/assets/css',
 					ext: '.min.css'
 				}]
 			}
@@ -49,8 +49,8 @@ module.exports = function(grunt) {
 		clean: { // Remove uncompressed files
 			dist: {
 				src: [
-					'public/compiled/css/*.css',
-					'!public/compiled/css/*.min.css'
+					'public/assets/css/*.css',
+					'!public/assets/css/*.min.css'
 				]
 			}
 		},
@@ -58,7 +58,11 @@ module.exports = function(grunt) {
 		watch: { // Watch for file changes
 			css: {
 				files: ['src/scss/*.scss', 'src/scss/pages/*.scss'],
-				tasks: ['sass', 'concat', 'cssmin', 'clean']
+				tasks: ['sass', 'concat', 'cssmin', 'clean'],
+				options: {
+					atBegin: true,
+					interrupt: true
+				}
 			}
 		}
 	})

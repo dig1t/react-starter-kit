@@ -12,3 +12,9 @@
 	background-image: -webkit-linear-gradient($deg, $begin, $end);
 	background-image: linear-gradient($deg, $begin, $end);
 }
+
+$base-url: '/assets';
+
+@function img($file) {
+	@return url(#{$base-url}/i/#{$file});
+}

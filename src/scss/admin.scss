@@ -1,7 +1,7 @@
 $black: #161a1d;
 $border-color: #eee;
 
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,200);
+// @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,200);
 
 body {
 	background-color: #edf0f3;
@@ -245,7 +245,7 @@ header {
 	.hero {
 		color: #fff;
 		height: 280px;
-		background-image: url(/static/i/admin/dashboard-hero.jpg);
+		background-image: url(/assets/i/admin/dashboard-hero.jpg);
 		background-position: center;
 		background-repeat: no-repeat;
 		background-size: cover;
