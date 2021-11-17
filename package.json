@@ -1,6 +1,6 @@
 {
   "name": "react-starter-kit",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Boilerplate for a react, node.js, and MongoDB stack.",
   "main": "server/index.js",
   "scripts": {

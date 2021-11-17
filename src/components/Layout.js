@@ -1,6 +1,5 @@
 import React from 'react'
 import Navigation from './Navigation'
-import { ScrollContainer } from './UI'
 import classNames from 'classnames'
 
 export default class Layout extends React.Component {

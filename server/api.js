@@ -1,4 +1,4 @@
-module.exports = async app => {
+export default async app => {
 	/* User Account API */
 	
 	/* Content API */
