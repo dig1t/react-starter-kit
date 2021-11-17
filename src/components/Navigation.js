@@ -7,8 +7,6 @@ import { BurgerMenu } from './UI'
 
 const links = [
 	['/', 'Home'],
-	['/book', 'Book'],
-	['/gallery', 'Gallery'],
 	['/faq', 'FAQ'],
 	['/blog', 'Blog']
 ]
@@ -23,7 +21,7 @@ const RightNavigation = props => {
 		<Link to="/login" className="btn btn-round btn-secondary">LOGIN</Link>
 	</li>
 	<li>
-		<Link to="/book" className="btn btn-round btn-primary">BOOK NOW</Link>
+		<Link to="/cta" className="btn btn-round btn-primary">CTA</Link>
 	</li>
 	</>
 }
