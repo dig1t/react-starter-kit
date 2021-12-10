@@ -10,7 +10,7 @@ module.exports = function(grunt) {
 				},
 				files: [{
 					expand: true,
-					cwd: 'src/scss',
+					cwd: 'src/styles',
 					src: [
 						'admin.scss',
 						'main.scss'
@@ -25,7 +25,7 @@ module.exports = function(grunt) {
 			dist: {
 				src: [
 					'public/assets/css/main.css',
-					'src/scss/*.css'
+					'src/styles/*.css'
 				],
 				dest: 'public/assets/css/build.css'
 			}
@@ -57,7 +57,7 @@ module.exports = function(grunt) {
 		
 		watch: { // Watch for file changes
 			css: {
-				files: ['src/scss/*.scss', 'src/scss/pages/*.scss'],
+				files: ['src/styles/*.scss', 'src/styles/pages/*.scss'],
 				tasks: ['sass', 'concat', 'cssmin', 'clean'],
 				options: {
 					atBegin: true,

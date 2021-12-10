@@ -1,1 +1,3 @@
-My personal react stack. It utilizes1 React, MongoDB, and Express
+My personal react stack.
+It utilizes React, MongoDB, and Express.
+It has Server Side Rendering built into the server.
