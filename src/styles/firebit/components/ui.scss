@@ -420,3 +420,47 @@ $tooltip-padding: 5px;
 		font-size: 3em;
 	}
 }
+
+.scroll {
+	$scrollbar-width: 8px;
+	$margin: 8px;
+	
+	$native-scrollbar-width: 12px;
+	
+	&-container {
+		overflow: hidden;
+		display: flex;
+	}
+	
+	&__view {
+		width: calc(100% + #{$native-scrollbar-width});
+		overflow: scroll;
+		margin-right: -$native-scrollbar-width;
+	}
+	
+	&__track {
+		width: $scrollbar-width + ($margin * 2);
+		position: absolute;
+		top: $margin;
+		bottom: $margin;
+		right: 0;
+		
+		&:hover .scroll__slider {
+			opacity: .8;
+		}
+	}
+	
+	&__slider {
+		background-color: black;
+		height: 100%; // 10% + 25px main element padding - half size of scrollbar
+		width: $scrollbar-width;
+		border-radius: calc($scrollbar-width / 2);
+		position: absolute;
+		left: $margin;
+		top: 0;
+		transition: opacity .2s;
+		opacity: .3;
+		//opacity: 0;
+		// TODO: uncomment opacity
+	}
+}

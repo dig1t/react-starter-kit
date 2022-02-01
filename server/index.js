@@ -7,9 +7,11 @@ import mongoose from 'mongoose'
 import MongoStore from 'connect-mongo'
 import sanitize from 'mongo-sanitize'
 import passport from 'passport'
+import { webpack } from 'webpack'
 import { Strategy as LocalStrategy } from 'passport-local'
 
 import config from './config.js'
+import webpackServerConfig from '../webpack.client.config.js'
 import api from './api.js'
 import ServerSideRender from '../src/server.js'
 
@@ -29,18 +31,32 @@ db.once('open', () => {
 })
 
 /* Setup express */
+
+if (app.get('env') === 'development') {
+	const compiler = webpack(webpackServerConfig)
+	
+	app.use(require('webpack-dev-middleware')(compiler, {
+		//noInfo: true,
+		publicPath: webpackServerConfig.output.publicPath
+	}))
+	app.use(require('webpack-hot-middleware')(compiler, {
+		log: false,
+		path: '/__webpack_hmr',
+		heartbeat: 10 * 1000
+	}))
+}
+
 app.use(express.json())
-app.use(express.urlencoded({extended: true}))
 app.use(express.static('dist/public'))
+app.use(express.urlencoded({extended: true}))
 app.use(compression())
-app.use(helmet({ noCache: app.get('env') === 'development' }))
 app.set('view engine', 'ejs')
-app.set('views', 'dist/views')
+app.set('views', 'server/views')
 
 app.on('error', err => {
 	if (err) console.error(err)
 	
-	//console.log(`Server started on port ${config.port}`)
+	console.log(`Server started on port ${config.port}`)
 })
 
 /* Setup express-session */
@@ -56,6 +72,7 @@ const expressSessionData = {
 }
 
 if (app.get('env') === 'production') {
+	app.use(helmet({ noCache: app.get('env') === 'development' }))
 	app.set('trust proxy', 1) // trust first proxy
 	expressSessionData.cookie.secure = true // serve secure cookies
 }
@@ -146,6 +163,7 @@ app.get('*', (req, res) => {
 	res.setHeader('Content-Type', 'text/html; charset=utf-8')
 	app.get('env') === 'development' && res.setHeader('Cache-Control', 'no-cache')
 	
+	// Render the requested page as HTML
 	const { initialState, markup } = ServerSideRender(req, res)
 	
 	return res.render('template', {

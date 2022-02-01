@@ -6,8 +6,9 @@ import Footer from '../Footer'
 
 export default class Landing extends React.Component {
 	// stickyNav = <Navigation page="/" mode="dark" sticky={false} />
-	renderComponent() {
-		return <>
+	
+	render() {
+		return <Layout className="landing" page={this.props.location.pathname}>
 			<section className="hero">
 				<div className="box align-wrap">
 					<div className="grid">
@@ -18,10 +19,6 @@ export default class Landing extends React.Component {
 				</div>
 			</section>
 			<Footer/>
-		</>
-	}
-	
-	render() {
-		return <Layout className="landing" page={this.props.location.pathname}>{this.renderComponent()}</Layout>
+		</Layout>
 	}
 }
