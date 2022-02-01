@@ -34,7 +34,7 @@ export default class Footer extends React.Component {
 					</div>
 				</div>
 				<div className="gi-4">
-					<SocialLinks/>
+					<SocialLinks />
 					{ /*<Newsletter/>*/ }
 					<div className="info">
 						<p><i className="fas fa-envelope"></i> contact@javierm.net</p>

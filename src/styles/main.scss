@@ -1,27 +1,24 @@
-@import 'base';
-@import 'ui'; // Custom UI Components
-@import 'util';
-@import 'config';
+@import 'firebit';
 
+// import page styles
 @import 'pages/landing';
 
 ::selection {
-	color: $white;
-	background-color: transparentize($black, .4);
+	background-color: transparentize($red, 0);
 }
 
 body {
 	color: $black;
-	background-color: $white;
+	background-color: color('white');
 	font-family: 'Open Sans', Helvetica, sans-serif;
-	font-feature-settings: "lnum";
+	font-feature-settings: 'lnum';
 	font-variant-numeric: lining-nums;
 }
 
 button, a.btn {
 	// Base properties for buttons
 	color: $white;
-	background-color: $black;
+	background-color: color('black');
 	padding: 12px 18px;
 	font-size: type-scale(0);
 	font-weight: bold;
@@ -44,9 +41,9 @@ button, a.btn {
 		}
 		
 		&-secondary {
-			color: $gray;
+			color: color('gray');
 			background-color: #fff;
-			border: 1px solid $gray;
+			border: 1px solid color('gray');
 		}
 	}
 }
@@ -100,19 +97,25 @@ nav {
 	&.sticky {
 		width: 100%;
 		
-		.placeholder {
+		&::before {
+			content: '';
 			height: $nav-height;
+			display: block;
 		}
+	}
+	
+	.logo {
+		width: calc(205px / 2);
+		height: calc(65px / 2);
 	}
 	
 	//temp
 	
 	.box {
-		background-color: #fff;
 		width: 100%;
 		height: $nav-height;
-		border-bottom: 1px solid transparentize($light-gray, .6);
-		padding: 0 50px;
+		background-color: #fff;
+		border-bottom: 1px solid transparentize($light-gray, .8);
 		line-height: $nav-height;
 		position: relative;
 	}
@@ -137,7 +140,7 @@ nav {
 		
 		&.nav-btn {
 			a {
-				color: $gray;
+				color: color(black);
 				padding: 8px 4px;
 				font-size: 1.4em;
 				font-weight: 700;
@@ -149,21 +152,8 @@ nav {
 			}
 			
 			&:hover:not(.active) a, &.active a {
-				color: $black;
-				border-bottom: 2px solid $primary;
-			}
-		}
-		
-		.btn {
-			padding: 10px 20px;
-			font-size: 1.2em;
-			
-			&.btn-secondary {
-				border: 0;
-				
-				&:hover {
-					color: $black;
-				}
+				color: color('black');
+				border-bottom: 2px solid $red;
 			}
 		}
 		
@@ -180,9 +170,6 @@ nav {
 }
 
 footer {
-	background-color: $dark-gray;
-	padding: 40px 0;
-	
 	&, a {
 		color: $light-gray;
 	}
@@ -208,7 +195,7 @@ footer {
 		margin-bottom: 34px;
 		display: flex;
 		justify-content: space-evenly;
-
+		
 		a {
 			width: $btn-size;
 			height: $btn-size;
@@ -281,8 +268,6 @@ footer {
 	}
 	
 	.copyright {
-		margin-top: 30px;
-		text-align: center;
 		letter-spacing: .04em;
 	}
 }
@@ -298,7 +283,7 @@ footer {
 		font-weight: 800;
 		line-height: 1em;
 		letter-spacing: -.04em;
-		-webkit-background-clip: text;
+		background-clip: text;
 		-webkit-text-fill-color: transparent;
 	}
 }

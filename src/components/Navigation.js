@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 
-import { BurgerMenu } from './UI'
+//import { BurgerMenu } from './UI'
 
 const links = [
 	['/', 'Home'],

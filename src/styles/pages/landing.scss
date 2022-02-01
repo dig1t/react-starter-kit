@@ -1,5 +1,3 @@
-@import '../config';
-
 main .content > section.landing {
 	overflow: hidden;
 }
@@ -7,7 +5,7 @@ main .content > section.landing {
 .landing {
 	// heading for each section
 	section > h2 {
-		color: $primary;
+		color: color(red, 500);
 		margin-bottom: 62px;
 		font-weight: 800;
 		text-align: center;
