@@ -10,7 +10,6 @@
     "build-server": "webpack --config webpack.server.config.js",
     "build": "npm run build-css && npm run build-client && npm run build-server",
     "dev-css": "grunt && grunt watch",
-    "dev-watch2": "set NODE_ENV=development&& concurrently \"babel-node server/index.js\"",
     "dev-watch": "set NODE_ENV=development&& concurrently \"webpack --config webpack.client.config.js --progress --watch\" \"babel-node server/index.js\"",
     "dev": "concurrently \"npm run dev-watch\" \"npm run dev-css\"",
     "start": "set NODE_ENV=production&& node dist/server.bundle.js",
