@@ -16,11 +16,11 @@ class Root extends React.Component {
 		
 		if (typeof window === 'undefined') return
 		
-		/*!this.props.googleReady && window.google ? this.props.dispatch(googleReady(true)) : window.mapsCallback = () => {
+		!this.props.googleReady && window.google ? this.props.dispatch(googleReady(true)) : window.mapsCallback = () => {
 			this.props.dispatch(googleReady(true))
 		}
 		
-		this.props.user.loggedIn && typeof this.props.user.profile.userId !== 'undefined' && this.props.dispatch(fetchUserData())*/
+		this.props.user.loggedIn && typeof this.props.user.profile.userId !== 'undefined' && this.props.dispatch(fetchUserData())
 	}
 	
 	render() {
@@ -35,4 +35,4 @@ const mapStateToProps = state => {
 	}
 }
 
-export default Root
+export default connect(mapStateToProps)(Root)
