@@ -1,32 +1,69 @@
 import React from 'react'
-import ReactDOMServer from 'react-dom/server'
+import { renderToPipeableStream } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom/server'
 import { Provider } from 'react-redux'
 
 import Root from './components/Root'
 
 import { setAuthStatus } from './actions/user'
-import { configureStore } from './store'
+import { createStore } from './store'
+import config from '../config'
+
+const assets = {
+	bundle: '/assets/js/bundle.js',
+	css: '/assets/css/build.min.css'
+}
 
 const ServerSideRender = (req, res) => {
+	req.app.get('env') === 'development' && res.setHeader('Cache-Control', 'no-cache')
+	res.setHeader('Content-Type', 'text/html; charset=utf-8')
+	
 	const context = {}
-	const store = configureStore()
+	const store = createStore()
 	
-	store.dispatch(setAuthStatus(typeof req.session.userId !== 'undefined'))
+	const userId = req.session && req.session.userId
 	
-	let markup = ReactDOMServer.renderToString(
-		<StaticRouter location={req.url} context={context}>
+	store.dispatch(setAuthStatus(typeof userId !== 'undefined'))
+	
+	let didError = false
+	
+	const stream = renderToPipeableStream(
+		<React.StrictMode>
 			<Provider store={store}>
-				<Root />
+				<StaticRouter location={req.url} context={context}>
+					<Root assets={assets} />
+				</StaticRouter>
 			</Provider>
-		</StaticRouter>
+		</React.StrictMode>,
+		{
+			bootstrapScripts: [ assets.bundle ],
+			onShellReady() {
+				// The content above all Suspense boundaries is ready.
+				// If something errored before we started streaming, we set the error code appropriately.
+				res.statusCode = didError ? 500 : 200
+				stream.pipe(res)
+			},
+			onShellError() {
+				// Something errored before we could complete the shell so we emit an alternative shell.
+				console.log('shell err')
+				if (context.status) res.status(context.status)
+				
+				const initialState = JSON.stringify(store.getState())
+				
+				res.statusCode = 500
+				res.render('template', {
+					keys: config.keys,
+					meta: config.meta,
+					initialState
+				})
+			},
+			onError(err) {
+				console.log('on err')
+				didError = true;
+				console.error(err);
+			},
+		}
 	)
-	
-	if (context.status) res.status(context.status)
-	
-	const initialState = store.getState()
-	
-	return { initialState, markup }
 }
 
 export default ServerSideRender

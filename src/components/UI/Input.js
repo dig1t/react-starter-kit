@@ -14,16 +14,16 @@ class Input extends React.Component {
 		
 		this.state = {
 			canWrap: props.type === 'selectButtons' ? true : props.wrap,
-			value: props.value,
 			isValid: null,
-			errorText: null
+			errorText: null,
+			value: ''
 		}
 		
 		this.validate = this.validate.bind(this)
 	}
 	
-	validate = value => {
-		if (!value) value = this.props.value
+	validate(value) {
+		if (typeof value === 'undefined') value = this.state.value
 		
 		let isValid = true
 		
@@ -40,6 +40,7 @@ class Input extends React.Component {
 			}
 		} else {
 			isValid = false
+			
 			if (value.length !== 0 && value.length <= (this.props.minLength - 1 || 0)) this.setState({
 				errorText: `${this.props.validateFor} is too short (${this.props.minLength} characters)`
 			})
@@ -52,33 +53,29 @@ class Input extends React.Component {
 		}
 		
 		// if not valid then toggle error
-		if (this.state.isValid !== isValid) {
+		if (typeof this.props.handleValidity !== 'undefined' && this.state.isValid !== isValid) {
 			this.props.handleValidity(this.props.name, isValid)
 			this.setState({ isValid })
 		}
 	}
 	
-	handleKeyDown = event => {
-		let val = this.props.value
-		const keyPressed = String.fromCharCode(event.which)
-		
-		// set as empty string if pressed backspace with 1 character in value
-		if (event.keyCode === 8) {
-			val = val.slice(0, -1)
-		} else if (!event.ctrlKey && !event.altKey && !event.shiftKey) {
-			if (keyPressed.length === 1) val += keyPressed
-		}
+	handleKeyDown(event) {
+		this.validate()
 	}
 	
-	handleKeyUp = event => {
-		// if ctrl + v or backspace then re-validate
+	handleKeyUp(event) {
 		this.validate()
+		/*this.setState({
+			value: event.target.value
+		})*/
+		//this.validate()
+		// if ctrl + v or backspace then re-validate
 		//if ((event.ctrlKey && event.keyCode === 86) || event.keyCode === 8) this.validate()
 	}
 	
-	componentWillReceiveProps(nextProps) {
-		// if (this.state.value !== nextProps.value) this.setState({ value: nextProps.value })
-		if (this.state.value !== nextProps.value) this.validate(nextProps.value)
+	handleChange(event) {
+		this.setState({ value: event.target.value })
+		this.validate()
 	}
 	
 	el(isInvalid) {
@@ -86,7 +83,7 @@ class Input extends React.Component {
 			className: classNames(!this.state.canWrap && isInvalid && 'error'),
 			placeholder: this.props.placeholder,
 			name: this.props.name,
-			onChange: this.props.onChange,
+			//onChange: this.props.onChange,
 			minLength: this.props.minLength,
 			maxLength: this.props.maxLength,
 			autoFocus: this.props.autoFocus,
@@ -98,9 +95,10 @@ class Input extends React.Component {
 			case 'textarea':
 				return <textarea {...attributes}
 					onBlur={() => this.validate()}
-					onKeyDown={this.handleKeyDown}
-					onKeyUp={this.handleKeyUp}
-					value={this.props.value}
+					onKeyDown={e => this.handleKeyDown(e)}
+					onKeyUp={e => this.handleKeyUp(e)}
+					onChange={e => this.handleChange(e)}
+					value={this.state.value}
 				></textarea>
 			case 'select':
 				return <select {...attributes} multiple={this.props.multiple}>
@@ -116,7 +114,7 @@ class Input extends React.Component {
 			case 'selectButtons':
 				return <>
 					{this.props.options.map(option => {
-						const className = classNames(this.props.value === option[1] && 'selected')
+						const className = classNames(this.state.value === option[1] && 'selected')
 						const labelClassName = className.length > 0 ? { className } : {}
 						
 						return <label {...labelClassName} key={option[1]}>
@@ -131,9 +129,10 @@ class Input extends React.Component {
 			default:
 				return <input {...attributes}
 					onBlur={() => this.validate()}
-					onKeyDown={this.handleKeyDown}
-					onKeyUp={this.handleKeyUp}
-					value={this.props.value} />
+					onKeyDown={event => this.handleKeyDown(event)}
+					onKeyUp={event => this.handleKeyUp(event)}
+					onChange={event => this.handleChange(event)}
+				/>
 		}
 	}
 	
@@ -156,12 +155,14 @@ Input.defaultProps = {
 	minLength: 0,
 	optional: false,
 	validateFor: 'text',
-	wrap: false
+	wrap: false,
+	value: ''
 }
 
 Input.propTypes = {
 	type: PropTypes.string,
 	minLength: PropTypes.number,
+	maxLength: PropTypes.number,
 	optional: PropTypes.bool,
 	validateFor: PropTypes.string,
 	defaultValue: PropTypes.string,

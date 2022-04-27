@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import Routes from './Routes'
+import AppRoutes from './Routes'
+import Html from './Html'
 
 import { fetchUserData } from '../actions/user'
 
@@ -18,7 +19,12 @@ class Root extends React.Component {
 	}
 	
 	render() {
-		return <Routes />
+		return <Html
+			assets={this.props.assets}
+			title={this.props.title}
+		>
+			<AppRoutes />
+		</Html>
 	}
 }
 

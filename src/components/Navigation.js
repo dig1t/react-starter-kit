@@ -7,39 +7,20 @@ import classNames from 'classnames'
 
 const links = [
 	['/', 'Home'],
-	['/faq', 'FAQ'],
-	['/blog', 'Blog']
+	['/hello', 'Hello']
+	//['/faq', 'FAQ'],
+	//['/blog', 'Blog']
 ]
-
-const RightNavigation = props => {
-	return props.loggedIn ? <>
-		<li>
-			<Link to="/my/profile" className="btn btn-round btn-secondary">PROFILE</Link>
-		</li>
-	</> : <>
-	<li>
-		<Link to="/login" className="btn btn-round btn-secondary">LOGIN</Link>
-	</li>
-	<li>
-		<Link to="/cta" className="btn btn-round btn-primary">CTA</Link>
-	</li>
-	</>
-}
 
 class Navigation extends React.Component {
 	render() {
-		const logoClassName = classNames(
-			'icon',
-			'icon-logo' + (this.props.mode === 'dark' ? '--white' : '')
-		)
-		
 		return <nav className={classNames(this.props.mode, {sticky:this.props.sticky ? this.props.sticky : false})} role="navigation">
 			<div className="placeholder"></div>
-			<div className="box">
-				<ul className="align-wrap float-left">
-					<li className="logo">
-						<Link className={logoClassName} to="/"></Link>
-					</li>
+			<div className="box p-x-3">
+				<ul className="align-wrap float-l">
+					<li className="font-size-10">My React App</li>
+				</ul>
+				<ul className="align-wrap float-r">
 					{links.map(link => {
 						const className = classNames('nav-btn', {
 							active: this.props.page === link[0]
@@ -49,9 +30,6 @@ class Navigation extends React.Component {
 							<Link to={link[0]}>{link[1]}</Link>
 						</li>
 					})}
-				</ul>
-				<ul className="align-wrap float-right">
-					<RightNavigation loggedIn={this.props.loggedIn} />
 				</ul>
 			</div>
 		</nav>
