@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Redirect, Route } from 'react-router'
-// <Redirect to={this.state.redirectURL} push />
+import { Navigate } from 'react-router-dom'
 
 class PrivateRoute extends React.Component {
 	constructor(props) {
@@ -9,19 +8,10 @@ class PrivateRoute extends React.Component {
 	}
 	
 	render() {
-		const {component, redirect, requireAuth, requireNoAuth, ...attributes} = this.props
+		const {redirectTo, requireAuth, requireNoAuth} = this.props
 		const canRender = (requireAuth && this.props.loggedIn) || (requireNoAuth && !this.props.loggedIn)
 		
-		return <Route {...attributes} render={props => {
-			if (!canRender) {
-				// staticContext prop is not defined on the client
-				if (props.staticContext) props.staticContext.status = 302
-				
-				return <Redirect to={redirect} push />
-			}
-			
-			return React.createElement(component, props)
-		}} />
+		return canRender ? this.props.children : <Navigate to={redirectTo} />
 	}
 }
 

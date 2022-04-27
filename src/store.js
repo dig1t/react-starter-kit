@@ -1,29 +1,12 @@
-import { createStore, applyMiddleware } from 'redux'
+import { configureStore } from '@reduxjs/toolkit'
 import thunk from 'redux-thunk'
+import logger from 'redux-logger'
 
-import reducers from './reducers'
+import reducer from './reducers'
 
-const logger = store => next => action => {
-	if (typeof window === 'undefined') return next(action)
-	
-	console.group(action.type)
-	console.log('prev state', store.getState())
-	
-	const result = next(action)
-	
-	console.info('dispatching', action)
-	console.log('next state', store.getState())
-	console.groupEnd(action.type)
-	
-	return result
-}
-
-export const configureStore = initialState => {
-	const store = createStore(
-		reducers,
-		initialState,
-		applyMiddleware(thunk, logger)
-	)
-	
-	return store
-}
+export const createStore = preloadedState => configureStore({
+	reducer,
+	middleware: getDefaultMiddleware => getDefaultMiddleware().concat(thunk, logger),
+	devTools: process.env.NODE_ENV !== 'production',
+	preloadedState
+})
