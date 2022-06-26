@@ -3,11 +3,10 @@ import { renderToPipeableStream } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom/server'
 import { Provider } from 'react-redux'
 
-import Root from './components/Root'
+import App from './components/App'
 
 import { setAuthStatus } from './actions/user'
 import { createStore } from './store'
-import config from '../config'
 
 const assets = {
 	bundle: '/assets/js/bundle.js',
@@ -18,7 +17,6 @@ const ServerSideRender = (req, res) => {
 	req.app.get('env') === 'development' && res.setHeader('Cache-Control', 'no-cache')
 	res.setHeader('Content-Type', 'text/html; charset=utf-8')
 	
-	const context = {}
 	const store = createStore()
 	
 	const userId = req.session && req.session.userId
@@ -30,8 +28,8 @@ const ServerSideRender = (req, res) => {
 	const stream = renderToPipeableStream(
 		<React.StrictMode>
 			<Provider store={store}>
-				<StaticRouter location={req.url} context={context}>
-					<Root assets={assets} />
+				<StaticRouter location={req.url}>
+					<App assets={assets} />
 				</StaticRouter>
 			</Provider>
 		</React.StrictMode>,
@@ -46,15 +44,12 @@ const ServerSideRender = (req, res) => {
 			onShellError() {
 				// Something errored before we could complete the shell so we emit an alternative shell.
 				console.log('shell err')
-				if (context.status) res.status(context.status)
-				
-				const initialState = JSON.stringify(store.getState())
 				
 				res.statusCode = 500
 				res.render('template', {
-					keys: config.keys,
-					meta: config.meta,
-					initialState
+					preloadedState: JSON.stringify(store.getState()),
+					assets: JSON.stringify(assets),
+					bundle: assets.bundle
 				})
 			},
 			onError(err) {

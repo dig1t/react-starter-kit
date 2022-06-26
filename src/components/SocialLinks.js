@@ -5,14 +5,12 @@ const links = [
 	{service: 'instagram', url: 'https://instagram.com/dig1t_'}
 ]
 
-const SocialLinks = () => (
-	<ul className="social-media">
-		{links.map(link => (
-			<li key={link.service}>
-				<a className={"fab fa-" + link.service} target="_blank" href={link.url}></a>
-			</li>
-		))}
-	</ul>
-)
+const SocialLinks = () => <ul className="social-media">
+	{links.map(link => (
+		<li key={link.service}>
+			<a className={'fab fa-' + link.service} target="_blank" href={link.url}></a>
+		</li>
+	))}
+</ul>
 
 export default SocialLinks

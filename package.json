@@ -1,9 +1,9 @@
 {
   "name": "react-starter-kit",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "MERN stack boilerplate",
   "private": true,
-  "main": "server/index.js",
+  "main": "dist/server.bundle.js",
   "scripts": {
     "build-css": "grunt",
     "build-client": "webpack --config webpack.client.config.js",
@@ -70,7 +70,6 @@
     "grunt-contrib-sass": "^2.0.0",
     "grunt-contrib-uglify": "^5.2.1",
     "grunt-contrib-watch": "^1.1.0",
-    "grunt-postcss": "^0.9.0",
     "history": "^5.3.0",
     "html-webpack-plugin": "^5.5.0",
     "mocha": "^9.2.2",
@@ -78,7 +77,6 @@
     "raw-loader": "^4.0.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-ga": "^3.3.0",
     "react-redux": "^8.0.0",
     "react-refresh": "^0.12.0",
     "react-router-dom": "^6.3.0",

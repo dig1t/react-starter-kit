@@ -5,15 +5,15 @@ import Layout from '../Layout'
 import Footer from '../Footer'
 
 export default class Landing extends React.Component {
-	// stickyNav = <Navigation page="/" mode="dark" sticky={false} />
+	// stickyNav = <Navigation page="/" theme="dark" sticky={false} />
 	
 	render() {
-		return <Layout className="landing">
+		return <Layout page="landing">
 			<section className="hero">
-				<div className="box align-wrap">
+				<div className="box align-center-wrap">
 					<div className="grid">
 						<div className="gi-xl">
-							<p>Hello World</p>
+							Hello World
 						</div>
 					</div>
 				</div>

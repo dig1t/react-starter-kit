@@ -29,7 +29,7 @@ class Modal extends React.Component {
 		
 		return show ? (<div className="footer">
 			<div className="heading">{this.props.title}</div>
-			<p>{this.props.description}</p>
+			<div>{this.props.description}</div>
 		</div>) : null
 	}
 	

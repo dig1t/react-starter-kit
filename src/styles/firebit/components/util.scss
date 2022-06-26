@@ -53,14 +53,21 @@
 	}
 }
 
-.center-wrap {
+.justify-center-wrap {
 	height: inherit;
 	display: flex;
 	justify-content: center;
 }
 
-.align-wrap {
-	height: 100%;
+.align-center-wrap {
+	height: inherit;
 	display: flex;
 	align-items: center;
+}
+
+.center-wrap {
+	height: inherit;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }

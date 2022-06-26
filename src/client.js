@@ -6,19 +6,17 @@ import { createBrowserHistory } from 'history'
 
 import { createStore } from './store'
 
-import Root from './components/Root'
+import App from './components/App'
 
 const history = createBrowserHistory()
-const store = createStore(
-	typeof window !== 'undefined' && (window.__INITIAL_STATE__ || {})
-)
+const store = createStore(window.__PRELOADED_STATE__)
 
 hydrateRoot(
 	document,
 	<React.StrictMode>
-		<Provider store={store}>
+		<Provider store={store} serverState={window.__PRELOADED_STATE__}>
 			<BrowserRouter history={history}>
-				<Root assets={window.assetManifest} />
+				<App assets={window.assetManifest} />
 			</BrowserRouter>
 		</Provider>
 	</React.StrictMode>

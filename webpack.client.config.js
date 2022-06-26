@@ -7,8 +7,6 @@ const dev = process.env.NODE_ENV === 'development'
 module.exports = {
 	mode: dev ? 'development' : 'production',
 	
-	entry: path.resolve(__dirname, 'src', 'client.js'),
-	
 	//devtool: 'source-map',
 	
 	entry: {

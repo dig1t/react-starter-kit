@@ -1,14 +1,21 @@
-import React from 'react'
-import Navigation from './Navigation'
+import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 
-export default class Layout extends React.Component {
-	render() {
-		const className = classNames('content', this.props.className)
-		
-		return <main>
-			<Navigation mode={this.props.navMode} sticky={true} page={this.props.page} />
-			<div className={className} page={this.props.page}>{this.props.children}</div>
-		</main>
-	}
+import Navigation from './Navigation'
+import Footer from './Footer'
+
+const Layout = props => {
+	const [theme, setTheme] = useState('light')
+	
+	useEffect(() => {
+		setTheme(props.theme)
+	}, [props.theme])
+	
+	return <main className={classNames(theme)} page={props.page}>
+		<Navigation theme={theme} sticky={props.stickyNav} transparent={true} page={props.page} />
+		<div className={classNames('content', props.page)}>{props.children}</div>
+		<Footer />
+	</main>
 }
+
+export default Layout

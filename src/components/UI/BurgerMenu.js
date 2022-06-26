@@ -16,8 +16,8 @@ export default class BurgerMenu extends React.Component {
 	}
 	
 	render() {
-    const className = classNames('nav-toggle', 'hamburger', (this.state.open && 'active'))
-    
+		const className = classNames('nav-toggle', 'hamburger', (this.state.open && 'active'))
+		
 		return <div className={className} onClick={this.toggle}><i /></div>
 	}
 }
