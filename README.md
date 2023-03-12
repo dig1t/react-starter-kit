@@ -2,7 +2,7 @@
 My personal react stack.
 It supports Server Side Rendering and SASS.
 
-created by @dig1t
+created by [@dig1t](https://github.com/dig1t)
 
 ## Main Dependencies
 - "express": "^4.17.3",
